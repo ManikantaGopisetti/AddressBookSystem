@@ -40,12 +40,17 @@ public class AddressBook {
 				break;
 
 			case 4:
+				System.out.println("contact list of address book: ");
+				
+				for (ContactPerson contact : contacts) {
+					System.out.println(contact);
+				}
 				System.out.println("Exited : ");
 				sc.close();
 				return;
 
 			}
 		}
-
+		
 	}
 }
