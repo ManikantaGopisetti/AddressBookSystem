@@ -11,7 +11,7 @@ public class AddressBook {
 	public static void main(String[] args) {
 
 		System.out.println("----------Welcome to Address Book Program-----------");
-		Scanner sc=new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 
 		List<ContactPerson> contacts = AdressBookServicesTest.getContacts();
 		AddressBookServices ads = new AddressBookServices();
@@ -21,27 +21,31 @@ public class AddressBook {
 			System.out.println(contact);
 		}
 		while (true) {
-			System.out.println("Enter your choice:\n 1. Add\n 2.Edit Contact 3. Exit ");
-			int choice= sc.nextInt();
+			System.out.println("Enter your choice:\n 1. Add\n 2.Edit Contact\n 3.Delete\n 4.Exit ");
+			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
 				System.out.println("Enter contact detais to add: ");
 				ads.addContact();
-				
 				break;
+
 			case 2:
 				System.out.println("Enter contact detais to edit: ");
 				ads.editContact();
-				
 				break;
 
 			case 3:
+				System.out.println("Enter contact detais to delete: ");
+				ads.deleteContact();
+				break;
+
+			case 4:
 				System.out.println("Exited : ");
 				sc.close();
 				return;
-				
+
 			}
 		}
-		
+
 	}
 }
