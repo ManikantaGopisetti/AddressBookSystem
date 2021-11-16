@@ -20,10 +20,8 @@ public class AddressBook {
 
 		contacts.add(newContact);			//adding contact to list
 		ads.addContact(contacts);			//adding new contact by invoking addContact method
-
 		
-		
-		
+		System.out.println(contacts);
 		
 	}
 
