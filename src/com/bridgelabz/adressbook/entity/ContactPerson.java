@@ -5,6 +5,7 @@ public class ContactPerson {
 	String firstName, lastName, address, city, state, email;
 	int zipCode;
 	Long phoneNumber;
+	
 
 	public ContactPerson(String firstName, String lastName, String address, String city, String state, String email,
 			int zipCode, Long phoneNumber) {
