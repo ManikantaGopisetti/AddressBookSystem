@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bridgelabz.adressbook.service.AddressBookServices;
+import com.bridgelabz.adressbook.service.AdressBookServicesTest;
 
 public class AddressBook {
 
@@ -20,10 +21,9 @@ public class AddressBook {
 		contacts.add(newContact);			//adding contact to list
 		ads.addContact(contacts);			//adding new contact by invoking addContact method
 
-		for (ContactPerson contact : contacts) {
-			System.out.println(contact);
-		}
-	
+		AdressBookServicesTest c = new AdressBookServicesTest();
+		
+		System.out.println(c.getContacts());
 		
 	}
 
