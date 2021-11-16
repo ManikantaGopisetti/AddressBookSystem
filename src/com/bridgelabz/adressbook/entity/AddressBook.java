@@ -21,9 +21,9 @@ public class AddressBook {
 		contacts.add(newContact);			//adding contact to list
 		ads.addContact(contacts);			//adding new contact by invoking addContact method
 
-		AdressBookServicesTest c = new AdressBookServicesTest();
 		
-		System.out.println(c.getContacts());
+		
+		
 		
 	}
 
