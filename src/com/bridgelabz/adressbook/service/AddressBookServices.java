@@ -40,7 +40,7 @@ public class AddressBookServices {
 	}
 
 	public ContactPerson findContact() {
-		System.out.println("/n Enter first name of contact to edit: ");
+		System.out.println("/n Enter first name: ");
 		String name = sc.next();
 		int duplicate = 0;
 		ContactPerson temp = null;
@@ -53,7 +53,7 @@ public class AddressBookServices {
 		if (duplicate == 1) {
 			return temp;
 
-		} else {
+		} else if(duplicate >1){
 			System.out.print(" There are multiple contacts with given name.\n Please enter their email id also: ");
 			String email = sc.next();
 			for (ContactPerson contact : contacts) {
@@ -69,6 +69,11 @@ public class AddressBookServices {
 	public void editContact() {
 
 		ContactPerson contact = findContact();
+		
+		if(contact == null) {
+			System.out.println(" no contact found with the given name");
+			return;
+		}
 
 		System.out.println("Enter your choice to edit: " + "\n 1.Edit first name" + "\n 2.Edit last name"
 				+ "\n 3.Edit address" + "\n 4.Edit city" + "\n 5.Edit state" + "\n 6.Edit email" + "\n 7.Edit zipcode"
@@ -138,6 +143,15 @@ public class AddressBookServices {
 		}
 		System.out.println("after editing: " + contact);
 
+	}
+	public void deleteContact() {
+		ContactPerson contact = findContact();
+		if (contact == null) {
+			System.out.println("no contact found with the given name");
+			return;
+		}
+		contacts.remove(contact);
+		System.out.println("contact removed from adress book");
 	}
 
 }
