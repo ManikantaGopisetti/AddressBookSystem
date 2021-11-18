@@ -1,5 +1,6 @@
 package com.bridgelabz.adressbook.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import com.bridgelabz.adressbook.entity.ContactPerson;
@@ -9,12 +10,17 @@ public class AddressBookServices {
 	String firstName, lastName, address, city, state, email;
 	int zipCode;
 	long phoneNumber;
+	AdressBookServicesTest adBook;
 
 	Scanner sc = new Scanner(System.in);
 
-	List<ContactPerson> contacts = AdressBookServicesTest.getContacts();
-
 	public void addContact() {
+
+		adBook = findAddressBook();
+		if (adBook == null) {
+			return;
+		}
+		List<ContactPerson> contacts = adBook.getContacts();
 
 		System.out.print("ENTER FIRST NAME: ");
 		firstName = sc.next();
@@ -39,7 +45,10 @@ public class AddressBookServices {
 
 	}
 
-	public ContactPerson findContact() {
+	public ContactPerson findContact(AdressBookServicesTest adBook) {
+		adBook = findAddressBook();
+		List<ContactPerson> contacts = adBook.getContacts();
+
 		System.out.println("/n Enter first name: ");
 		String name = sc.next();
 		int duplicate = 0;
@@ -53,7 +62,7 @@ public class AddressBookServices {
 		if (duplicate == 1) {
 			return temp;
 
-		} else if(duplicate >1){
+		} else if (duplicate > 1) {
 			System.out.print(" There are multiple contacts with given name.\n Please enter their email id also: ");
 			String email = sc.next();
 			for (ContactPerson contact : contacts) {
@@ -67,10 +76,13 @@ public class AddressBookServices {
 	}
 
 	public void editContact() {
+		adBook = findAddressBook();
+		if (adBook == null) {
+			return;
+		}
+		ContactPerson contact = findContact(adBook);
 
-		ContactPerson contact = findContact();
-		
-		if(contact == null) {
+		if (contact == null) {
 			System.out.println(" no contact found with the given name");
 			return;
 		}
@@ -136,7 +148,6 @@ public class AddressBookServices {
 			System.out.println("new phone number updated");
 
 			break;
-
 		default:
 			System.out.println("Please enter a number between 1 to 8 only...");
 			break;
@@ -144,14 +155,54 @@ public class AddressBookServices {
 		System.out.println("after editing: " + contact);
 
 	}
+
 	public void deleteContact() {
-		ContactPerson contact = findContact();
+		adBook = findAddressBook();
+		List<ContactPerson> contacts = adBook.getContacts();
+
+		ContactPerson contact = findContact(adBook);
 		if (contact == null) {
 			System.out.println("no contact found with the given name");
 			return;
 		}
 		contacts.remove(contact);
 		System.out.println("contact removed from adress book");
+	}
+
+	public void printContacts() {
+
+		List<AdressBookServicesTest> addressBook = AddressBookList.getAdressBook();
+
+		for (AdressBookServicesTest adBook : addressBook) {
+
+			System.out.println(" ******** " + adBook.getAdName() + " ********");
+			for (ContactPerson contactPerson : adBook.getContacts()) {
+				System.out.println(contactPerson);
+			}
+		}
+	}
+
+	private AdressBookServicesTest findAddressBook() {
+
+		List<AdressBookServicesTest> adbook = AddressBookList.getAdressBook();
+
+		if (adbook.size() == 0) {
+			System.out.println(" Please create an address book first!");
+			return null;
+		}
+
+		System.out.print(" Enter the name of the address book: ");
+		String adBookName = sc.next();
+
+		for (AdressBookServicesTest addressBook : adbook) {
+
+			if (addressBook.getAdName().equals(adBookName)) {
+				return addressBook;
+			}
+		}
+
+		System.out.println(" Address book does not exist!");
+		return null;
 	}
 
 }
