@@ -1,8 +1,11 @@
 package com.bridgelabz.adressbook.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.bridgelabz.adressbook.service.AddressBookList;
+import com.bridgelabz.adressbook.service.AddressBookListServices;
 import com.bridgelabz.adressbook.service.AddressBookServices;
 import com.bridgelabz.adressbook.service.AdressBookServicesTest;
 
@@ -13,15 +16,19 @@ public class AddressBook {
 		System.out.println("----------Welcome to Address Book Program-----------");
 		Scanner sc = new Scanner(System.in);
 
-		List<ContactPerson> contacts = AdressBookServicesTest.getContacts();
+		List<ContactPerson> contacts = new ArrayList<ContactPerson>();
 		AddressBookServices ads = new AddressBookServices();
+		AddressBookListServices abl = new AddressBookListServices();
+
+		abl.addAddressBook();
 
 		ads.addContact(); // adding new contact by invoking addContact method
 		for (ContactPerson contact : contacts) {
 			System.out.println(contact);
 		}
 		while (true) {
-			System.out.println("Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Exit ");
+			System.out.println(
+					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n 6.Print contacts\n 7.Exit ");
 			int choice = sc.nextInt();
 			switch (choice) {
 			case 1:
@@ -47,12 +54,16 @@ public class AddressBook {
 				}
 
 			case 5:
-				System.out.println("contact list of address book: ");
+				System.out.println("Enter name of the address book: ");
+				abl.addAddressBook();
 
-				for (ContactPerson contact : contacts) {
-					System.out.println(contact);
-				}
-				System.out.println("Exited : ");
+			case 6:
+				System.out.println("contact list of address book: ");
+				ads.printContacts();
+				break;
+
+			case 7:
+				System.out.println("Exiting address book ");
 				sc.close();
 				return;
 

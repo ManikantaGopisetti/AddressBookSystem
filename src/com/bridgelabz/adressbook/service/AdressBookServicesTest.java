@@ -7,15 +7,29 @@ import com.bridgelabz.adressbook.entity.ContactPerson;
 
 public class AdressBookServicesTest {
 
-	public static List<ContactPerson> contacts = new ArrayList<>();
+	private List<ContactPerson> contacts = new ArrayList<>();
 
-	public static List<ContactPerson> getContacts() {
+	private String adName;
+
+	public AdressBookServicesTest(String adName) {
+		super();
+		this.adName = adName;
+	}
+
+	public List<ContactPerson> getContacts() {
 		return contacts;
 	}
 
-	public static void setContacts(List<ContactPerson> contacts) {
-		AdressBookServicesTest.contacts = contacts;
+	public void setContacts(List<ContactPerson> contacts) {
+		this.contacts = contacts;
 	}
 
-	
+	public String getAdName() {
+		return adName;
+	}
+
+	public void setAdName(String adName) {
+		this.adName = adName;
+	}
+
 }
