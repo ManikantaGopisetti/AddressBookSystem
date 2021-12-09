@@ -15,9 +15,9 @@ public class MultipleAddressBooks {
 		MultipleAddressBooks.addressBooks = addressBooks;
 	}
 
-//	@Override
-//	public String toString() {
-//		return "MultipleAddressBooks [" + addressBooks + "=addressBooks]";
-//	}
+	@Override
+	public String toString() {
+		return "MultipleAddressBooks [" + addressBooks + "=addressBooks]";
+	}
 
 }
