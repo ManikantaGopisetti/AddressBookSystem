@@ -84,10 +84,28 @@ public class ContactPerson {
 	}
 
 	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+
+		if (obj.getClass() != this.getClass()) {
+			return false;
+		}
+
+		final ContactPerson other = (ContactPerson) obj;
+		if ((this.firstName == null) ? (other.firstName != null) : !this.firstName.equals(other.firstName)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
 	public String toString() {
-		return " [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
-				+ city + ", state=" + state + ", email=" + email + ", zipCode=" + zipCode + ", phoneNumber="
-				+ phoneNumber + "]\n";
+		return " [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
+				+ ", state=" + state + ", email=" + email + ", zipCode=" + zipCode + ", phoneNumber=" + phoneNumber
+				+ "]\n";
 	}
 
 }

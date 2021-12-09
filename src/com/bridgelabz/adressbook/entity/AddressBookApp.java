@@ -44,7 +44,7 @@ public class AddressBookApp {
 				break;
 
 			case 4:
-				System.out.print(" Enter the name of the address book: ");
+				System.out.print("Enter the name of the address book: ");
 				adBookName = sc.next();
 				System.out.println("Enter no of contacts to add: ");
 				int n = sc.nextInt();
@@ -58,7 +58,7 @@ public class AddressBookApp {
 				break;
 
 			case 6:
-				System.out.println("contact list of address book: ");
+				System.out.println("Contact list of address book: ");
 				addressBookServices.printContacts(addressBooks);
 				break;
 

@@ -12,7 +12,8 @@ public class MultipleAddressBooksServices {
 		Scanner sc = new Scanner(System.in);
 		System.out.print("Enter address book name: ");
 		String name = sc.next();
-
+		
+		//checking for duplicate address book
 		if (addressBooks.containsKey(name)) {
 			System.out.println("\nAddress book name alread exist \n");
 		} else {
