@@ -1,87 +1,57 @@
 package com.bridgelabz.adressbook.service;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
+import com.bridgelabz.adressbook.entity.AddressBook;
 import com.bridgelabz.adressbook.entity.ContactPerson;
 
-public class AddressBookServices {
+public class AddressBookServices implements IAddressBookServices {
 
-	String firstName, lastName, address, city, state, email;
-	int zipCode;
-	long phoneNumber;
-	AdressBookServicesTest adBook;
+	public static AddressBook adressBook;
 
 	Scanner sc = new Scanner(System.in);
 
-	public void addContact() {
+	@Override
+	public void addContact(Map<String, AddressBook> addressBooks, String adBookName){
 
-		adBook = findAddressBook();
-		if (adBook == null) {
+		adressBook = findAddressBook(addressBooks, adBookName);
+		if (adressBook == null) {
 			return;
 		}
-		List<ContactPerson> contacts = adBook.getContacts();
+		List<ContactPerson> contacts = adressBook.getContacts();
 
-		System.out.print("ENTER FIRST NAME: ");
-		firstName = sc.next();
-		System.out.print("ENTER LAST NAME: ");
-		lastName = sc.next();
-		System.out.print("ENTER ADDRESS: ");
-		address = sc.next();
-		System.out.print("ENTER CITY: ");
-		city = sc.next();
-		System.out.print("ENTER STATE: ");
-		state = sc.next();
-		System.out.print("ENTER EMAIL: ");
-		email = sc.next();
-		System.out.print("ENTER ZIP CODE: ");
-		zipCode = sc.nextInt();
-		System.out.print("ENTER PHONE NUMBER: ");
-		phoneNumber = sc.nextLong();
+		System.out.println("ENTER FIRST NAME:");
+		System.out.println("ENTER LAST NAME: ");
+		System.out.println("ENTER ADDRESS: ");
+		System.out.println("ENTER CITY: ");
+		System.out.println("ENTER STATE: ");
+		System.out.println("ENTER EMAIL: ");
+		System.out.println("ENTER ZIP CODE: ");
+		System.out.println("ENTER PHONE NUMBER: ");
 
-		ContactPerson newContact = new ContactPerson(firstName, lastName, address, city, state, email, zipCode,
-				phoneNumber);
-		contacts.add(newContact);
-
+		ContactPerson newContact;
+		try {
+			newContact = new ContactPerson(sc.next(), sc.next(), sc.next(), sc.next(), sc.next(), sc.next(),
+					sc.nextInt(), sc.nextLong());
+			contacts.add(newContact);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
-	public ContactPerson findContact(AdressBookServicesTest adBook) {
-		adBook = findAddressBook();
-		List<ContactPerson> contacts = adBook.getContacts();
+	@Override
+	public void editContact(Map<String, AddressBook> addressBooks, String adBookName) {
 
-		System.out.println("/n Enter first name: ");
-		String name = sc.next();
-		int duplicate = 0;
-		ContactPerson temp = null;
-		for (ContactPerson contact : contacts) {
-			if (contact.getFirstName().equals(name)) {
-				duplicate++;
-				temp = contact;
-			}
-		}
-		if (duplicate == 1) {
-			return temp;
-
-		} else if (duplicate > 1) {
-			System.out.print(" There are multiple contacts with given name.\n Please enter their email id also: ");
-			String email = sc.next();
-			for (ContactPerson contact : contacts) {
-				if (contact.getFirstName().equals(name) && contact.getEmail().equals(email)) {
-					return contact;
-				}
-			}
-		}
-		return temp;
-
-	}
-
-	public void editContact() {
-		adBook = findAddressBook();
-		if (adBook == null) {
+		adressBook = findAddressBook(addressBooks, adBookName);
+		if (adressBook == null) {
 			return;
 		}
-		ContactPerson contact = findContact(adBook);
 
+		ContactPerson contact = findContact(adressBook);
 		if (contact == null) {
 			System.out.println(" no contact found with the given name");
 			return;
@@ -98,56 +68,57 @@ public class AddressBookServices {
 			String newFirstName = sc.next();
 			contact.setFirstName(newFirstName);
 			System.out.println("new first name updated");
-
 			break;
+
 		case 2:
 			System.out.println("Enter new last name");
 			String newLastName = sc.next();
 			contact.setLastName(newLastName);
 			System.out.println("new last name updated");
-
 			break;
+
 		case 3:
 			System.out.println("Enter new address");
 			String newAddress = sc.next();
 			contact.setAddress(newAddress);
 			System.out.println("new newaddress updated");
-
 			break;
+
 		case 4:
 			System.out.println("Enter new city");
 			String newCity = sc.next();
 			contact.setCity(newCity);
 			System.out.println("new city updated");
-
 			break;
+
 		case 5:
 			System.out.println("Enter new state");
 			String newState = sc.next();
 			contact.setState(newState);
 			System.out.println("new state updated");
-
 			break;
+
 		case 6:
 			System.out.println("Enter new email");
 			String newEmail = sc.next();
 			contact.setEmail(newEmail);
 			System.out.println("new email updated");
-
 			break;
+
 		case 7:
 			System.out.println("Enter new zip code");
 			int newZipCode = sc.nextInt();
 			contact.setZipCode(newZipCode);
 			System.out.println("new zip code updated");
 			break;
+
 		case 8:
 			System.out.println("Enter new phone number");
 			long newPhoneNumber = sc.nextLong();
 			contact.setPhoneNumber(newPhoneNumber);
 			System.out.println("new phone number updated");
-
 			break;
+
 		default:
 			System.out.println("Please enter a number between 1 to 8 only...");
 			break;
@@ -156,53 +127,77 @@ public class AddressBookServices {
 
 	}
 
-	public void deleteContact() {
-		adBook = findAddressBook();
-		List<ContactPerson> contacts = adBook.getContacts();
-
-		ContactPerson contact = findContact(adBook);
-		if (contact == null) {
-			System.out.println("no contact found with the given name");
-			return;
+	@Override
+	public void deleteContact(Map<String, AddressBook> addressBooks, String adBookName) {
+		adressBook = findAddressBook(addressBooks, adBookName);
+		List<ContactPerson> contacts;
+		try {
+			contacts = adressBook.getContacts();
+			ContactPerson contact = findContact(adressBook);
+			if (contact == null) {
+				System.out.println("no contact found with the given name\n");
+				return;
+			}
+			contacts.remove(contact);
+			System.out.println("contact removed from adress book\n");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		contacts.remove(contact);
-		System.out.println("contact removed from adress book");
+		
 	}
 
-	public void printContacts() {
-
-		List<AdressBookServicesTest> addressBook = AddressBookList.getAdressBook();
-
-		for (AdressBookServicesTest adBook : addressBook) {
-
-			System.out.println(" ******** " + adBook.getAdName() + " ********");
-			for (ContactPerson contactPerson : adBook.getContacts()) {
-				System.out.println(contactPerson);
+	@Override
+	public ContactPerson findContact(AddressBook adBook) {
+		List<ContactPerson> contacts = adBook.getContacts();
+		System.out.println("\n Enter first name: ");
+		String name = sc.next();
+		int duplicate = 0;
+		ContactPerson temp = null;
+		for (ContactPerson contact : contacts) {
+			if (contact.getFirstName().equals(name)) {
+				duplicate++;
+				temp = contact;
 			}
 		}
+		if (duplicate == 1) {
+			return temp;
+
+		} else if (duplicate > 1) {
+			System.out.print(" There are multiple contacts with given name.\n Please enter email id also: ");
+			String email = sc.next();
+			for (ContactPerson contact : contacts) {
+				if (contact.getFirstName().equals(name) && contact.getEmail().equals(email)) {
+					return contact;
+				}
+			}
+		}
+		return temp;
+
 	}
 
-	private AdressBookServicesTest findAddressBook() {
+	private AddressBook findAddressBook(Map<String, AddressBook> addressBooks, String adBookName) {
 
-		List<AdressBookServicesTest> adbook = AddressBookList.getAdressBook();
-
-		if (adbook.size() == 0) {
-			System.out.println(" Please create an address book first!");
+		if (addressBooks.size() == 0) {
+			System.out.println("Please create an address book first! \n");
 			return null;
 		}
 
-		System.out.print(" Enter the name of the address book: ");
-		String adBookName = sc.next();
+		Iterator<Entry<String, AddressBook>> iterator = addressBooks.entrySet().iterator();
+		while (iterator.hasNext()) {
 
-		for (AdressBookServicesTest addressBook : adbook) {
-
-			if (addressBook.getAdName().equals(adBookName)) {
-				return addressBook;
+			Map.Entry<String, AddressBook> entry = iterator.next();
+			if (entry.getKey().equals(adBookName)) {
+				return entry.getValue();
 			}
 		}
 
-		System.out.println(" Address book does not exist!");
+		System.out.println("Address book does not exist! \n");
 		return null;
 	}
 
+	@Override
+	public void printContacts(Map<String, AddressBook> addressBooks) {
+		System.out.println(addressBooks);
+	}
 }
