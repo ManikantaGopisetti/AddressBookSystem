@@ -15,7 +15,7 @@ public class AddressBookServices implements IAddressBookServices {
 	Scanner sc = new Scanner(System.in);
 
 	@Override
-	public void addContact(Map<String, AddressBook> addressBooks, String adBookName){
+	public void addContact(Map<String, AddressBook> addressBooks, String adBookName) {
 
 		adressBook = findAddressBook(addressBooks, adBookName);
 		if (adressBook == null) {
@@ -23,7 +23,16 @@ public class AddressBookServices implements IAddressBookServices {
 		}
 		List<ContactPerson> contacts = adressBook.getContacts();
 
-		System.out.println("ENTER FIRST NAME:");
+		System.out.print("ENTER FIRST NAME:");
+		String name = sc.next();
+		//checking for duplicate contact with first name
+		for (ContactPerson contact : contacts) {
+			if(contact.getFirstName().equals(name)) {
+				System.out.println("contact with same name already exists \n");
+				return;
+			}
+		}
+		
 		System.out.println("ENTER LAST NAME: ");
 		System.out.println("ENTER ADDRESS: ");
 		System.out.println("ENTER CITY: ");
@@ -32,15 +41,14 @@ public class AddressBookServices implements IAddressBookServices {
 		System.out.println("ENTER ZIP CODE: ");
 		System.out.println("ENTER PHONE NUMBER: ");
 
-		ContactPerson newContact;
 		try {
-			newContact = new ContactPerson(sc.next(), sc.next(), sc.next(), sc.next(), sc.next(), sc.next(),
-					sc.nextInt(), sc.nextLong());
+			ContactPerson newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(),
+					sc.next(), sc.nextInt(), sc.nextLong());
 			contacts.add(newContact);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -141,10 +149,9 @@ public class AddressBookServices implements IAddressBookServices {
 			contacts.remove(contact);
 			System.out.println("contact removed from adress book\n");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
