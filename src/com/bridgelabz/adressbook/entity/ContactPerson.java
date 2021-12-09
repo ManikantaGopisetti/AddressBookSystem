@@ -85,9 +85,9 @@ public class ContactPerson {
 
 	@Override
 	public String toString() {
-		return "ContactDetails [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
+		return " [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city="
 				+ city + ", state=" + state + ", email=" + email + ", zipCode=" + zipCode + ", phoneNumber="
-				+ phoneNumber + "]";
+				+ phoneNumber + "]\n";
 	}
 
 }
