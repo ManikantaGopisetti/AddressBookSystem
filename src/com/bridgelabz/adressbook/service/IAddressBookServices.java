@@ -12,8 +12,6 @@ public interface IAddressBookServices {
 	
 	public void deleteContact(Map<String, AddressBook> addressBooks, String adBookName);
 	
-	public void searchPersonInCityState(Map<String, AddressBook> addressBooks);
-	
 	public ContactPerson findContact(AddressBook adBook);
 
 	void printContacts(Map<String, AddressBook> addressBooks);
