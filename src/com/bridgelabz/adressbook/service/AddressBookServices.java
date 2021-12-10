@@ -1,5 +1,7 @@
 package com.bridgelabz.adressbook.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.stream.Collectors;
 
 import com.bridgelabz.adressbook.entity.AddressBook;
 import com.bridgelabz.adressbook.entity.ContactPerson;
+import com.bridgelabz.adressbook.entity.MultipleAddressBooks;
 
 public class AddressBookServices implements IAddressBookServices {
 
@@ -42,15 +45,32 @@ public class AddressBookServices implements IAddressBookServices {
 		System.out.println("ENTER EMAIL: ");
 		System.out.println("ENTER ZIP CODE: ");
 		System.out.println("ENTER PHONE NUMBER: ");
-
+		
+		ContactPerson newContact;
 		try {
-			ContactPerson newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(), sc.next(),
+			newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(), sc.next(),
 					sc.nextInt(), sc.nextLong());
 			contacts.add(newContact);
+			
+			Map<String, List<ContactPerson>> cityDictionary = MultipleAddressBooks.getCityDictionary();
+			
+			Map<String, List<ContactPerson>> stateDictionary = MultipleAddressBooks.getStateDictionary();
+			
+			if(!cityDictionary.containsKey(newContact.getCity())) {
+				List<ContactPerson> cityContacts = new ArrayList<ContactPerson>();
+				cityDictionary.put(newContact.getCity(), cityContacts);	
+			}
+			cityDictionary.get(newContact.getCity()).add(newContact);
+			if(!stateDictionary.containsKey(newContact.getState())) {
+				List<ContactPerson> stateContacts = new ArrayList<ContactPerson>();
+				stateDictionary.put(newContact.getState(), stateContacts);
+			}
+			stateDictionary.get(newContact.getState()).add(newContact);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
 	}
 
 	@Override
@@ -205,32 +225,6 @@ public class AddressBookServices implements IAddressBookServices {
 		return null;
 	}
 
-	public void searchPersonInCityState(Map<String, AddressBook> addressBooks) {
-
-		System.out.println("Enter your choice to search from \n1.city \n2.state");
-		List<AddressBook> arrlist = addressBooks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
-		
-		int choice = sc.nextInt();
-		switch (choice) {
-		case 1:
-			System.out.println("Enter name of the city");
-			String name = sc.next();
-			arrlist.stream().forEach(ad -> ad.getContacts().stream().filter(contact -> contact.getCity().equals(name))
-					.forEach(contact -> System.out.println(contact)));
-			break;
-
-		case 2:
-			System.out.println("Enter name of the state");
-			name = sc.next();
-			arrlist.stream().forEach(ad -> ad.getContacts().stream().filter(contact -> contact.getState().equals(name))
-					.forEach(contact -> System.out.println(contact)));
-			break;
-			
-		default:
-			System.out.println("Enter valid choice");
-		}
-
-	}
 
 	@Override
 	public void printContacts(Map<String, AddressBook> addressBooks) {
