@@ -45,32 +45,32 @@ public class AddressBookServices implements IAddressBookServices {
 		System.out.println("ENTER EMAIL: ");
 		System.out.println("ENTER ZIP CODE: ");
 		System.out.println("ENTER PHONE NUMBER: ");
-		
+
 		ContactPerson newContact;
 		try {
-			newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(), sc.next(),
-					sc.nextInt(), sc.nextLong());
+			newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(), sc.next(), sc.nextInt(),
+					sc.nextLong());
 			contacts.add(newContact);
-			
+
 			Map<String, List<ContactPerson>> cityDictionary = MultipleAddressBooks.getCityDictionary();
-			
+
 			Map<String, List<ContactPerson>> stateDictionary = MultipleAddressBooks.getStateDictionary();
-			
-			if(!cityDictionary.containsKey(newContact.getCity())) {
+
+			if (!cityDictionary.containsKey(newContact.getCity())) {
 				List<ContactPerson> cityContacts = new ArrayList<ContactPerson>();
-				cityDictionary.put(newContact.getCity(), cityContacts);	
+				cityDictionary.put(newContact.getCity(), cityContacts);
 			}
 			cityDictionary.get(newContact.getCity()).add(newContact);
-			if(!stateDictionary.containsKey(newContact.getState())) {
+			if (!stateDictionary.containsKey(newContact.getState())) {
 				List<ContactPerson> stateContacts = new ArrayList<ContactPerson>();
 				stateDictionary.put(newContact.getState(), stateContacts);
 			}
 			stateDictionary.get(newContact.getState()).add(newContact);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Override
@@ -169,6 +169,15 @@ public class AddressBookServices implements IAddressBookServices {
 				return;
 			}
 			contacts.remove(contact);
+
+			// incase of contact deleted it should be removed from dictionary with city and
+			// state also
+			if (MultipleAddressBooks.getCityDictionary().containsKey(contact.getCity())) {
+				MultipleAddressBooks.getCityDictionary().get(contact.getCity()).remove(contact);
+			}
+			if (MultipleAddressBooks.getStateDictionary().containsKey(contact.getState())) {
+				MultipleAddressBooks.getStateDictionary().get(contact.getState()).remove(contact);
+			}
 			System.out.println("contact removed from adress book\n");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -224,7 +233,6 @@ public class AddressBookServices implements IAddressBookServices {
 		System.out.println("Address book does not exist! \n");
 		return null;
 	}
-
 
 	@Override
 	public void printContacts(Map<String, AddressBook> addressBooks) {
