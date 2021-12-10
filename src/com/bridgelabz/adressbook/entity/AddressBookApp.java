@@ -19,7 +19,8 @@ public class AddressBookApp {
 		while (true) {
 			Scanner sc = new Scanner(System.in);
 			System.out.println(
-					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n 6.Print contacts\n 7.Search by city/state\n 8.View person by city/state\n 9.Exit");
+					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n "
+							+ "6.Print contacts\n 7.Search by city/state\n 8.View person by city/state\n 9.Get contacts count using city/state\n 10.Exit");
 			int choice = sc.nextInt();
 
 			switch (choice) {
@@ -65,7 +66,7 @@ public class AddressBookApp {
 				break;
 
 			case 7:
-				multipleAddressBooksServices.searchPersonInCityState(addressBooks);
+				multipleAddressBooksServices.searchPersonByCityState(addressBooks);
 				break;
 
 			case 8:
@@ -73,6 +74,10 @@ public class AddressBookApp {
 				break;
 
 			case 9:
+				multipleAddressBooksServices.getNoOfContacts();
+				break;
+
+			case 10:
 				System.out.println("Exiting address book ");
 				sc.close();
 				return;

@@ -15,12 +15,10 @@ public class MultipleAddressBooks {
 	public static void setAddressBooks(Map<String, AddressBook> addressBooks) {
 		MultipleAddressBooks.addressBooks = addressBooks;
 	}
-	
-	
+
 	static Map<String, List<ContactPerson>> cityDictionary = new HashMap<>();
-	
+
 	static Map<String, List<ContactPerson>> stateDictionary = new HashMap<>();
-	
 
 	public static Map<String, List<ContactPerson>> getCityDictionary() {
 		return cityDictionary;
