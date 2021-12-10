@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.stream.Collectors;
+
 import com.bridgelabz.adressbook.entity.AddressBook;
 import com.bridgelabz.adressbook.entity.ContactPerson;
 
@@ -25,14 +27,14 @@ public class AddressBookServices implements IAddressBookServices {
 
 		System.out.print("ENTER FIRST NAME:");
 		String name = sc.next();
-		//checking for duplicate contact with first name
+		// checking for duplicate contact with first name
 		for (ContactPerson contact : contacts) {
-			if(contact.getFirstName().equals(name)) {
+			if (contact.getFirstName().equals(name)) {
 				System.out.println("contact with same name already exists \n");
 				return;
 			}
 		}
-		
+
 		System.out.println("ENTER LAST NAME: ");
 		System.out.println("ENTER ADDRESS: ");
 		System.out.println("ENTER CITY: ");
@@ -42,8 +44,8 @@ public class AddressBookServices implements IAddressBookServices {
 		System.out.println("ENTER PHONE NUMBER: ");
 
 		try {
-			ContactPerson newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(),
-					sc.next(), sc.nextInt(), sc.nextLong());
+			ContactPerson newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(), sc.next(),
+					sc.nextInt(), sc.nextLong());
 			contacts.add(newContact);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -201,6 +203,33 @@ public class AddressBookServices implements IAddressBookServices {
 
 		System.out.println("Address book does not exist! \n");
 		return null;
+	}
+
+	public void searchPersonInCityState(Map<String, AddressBook> addressBooks) {
+
+		System.out.println("Enter your choice to search from \n1.city \n2.state");
+		List<AddressBook> arrlist = addressBooks.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
+		
+		int choice = sc.nextInt();
+		switch (choice) {
+		case 1:
+			System.out.println("Enter name of the city");
+			String name = sc.next();
+			arrlist.stream().forEach(ad -> ad.getContacts().stream().filter(contact -> contact.getCity().equals(name))
+					.forEach(contact -> System.out.println(contact)));
+			break;
+
+		case 2:
+			System.out.println("Enter name of the state");
+			name = sc.next();
+			arrlist.stream().forEach(ad -> ad.getContacts().stream().filter(contact -> contact.getState().equals(name))
+					.forEach(contact -> System.out.println(contact)));
+			break;
+			
+		default:
+			System.out.println("Enter valid choice");
+		}
+
 	}
 
 	@Override

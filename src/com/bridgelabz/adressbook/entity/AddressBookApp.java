@@ -19,9 +19,11 @@ public class AddressBookApp {
 		while (true) {
 			Scanner sc = new Scanner(System.in);
 			System.out.println(
-					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n 6.Print contacts\n 7.Exit ");
+					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n 6.Print contacts\n 7.Search by city/state  \n8.Exit");
 			int choice = sc.nextInt();
+			
 			switch (choice) {
+			
 			case 1:
 				System.out.println("Enter contact detais to add: ");
 				System.out.print(" Enter the name of the address book: ");
@@ -63,12 +65,19 @@ public class AddressBookApp {
 				break;
 
 			case 7:
+				addressBookServices.searchPersonInCityState(addressBooks);
+				break;
+
+			case 8:
 				System.out.println("Exiting address book ");
 				sc.close();
 				return;
 
+			default:
+				System.out.println("Please enter a valid choice ");
+				sc.close();
+
 			}
 		}
-
 	}
 }
