@@ -1,12 +1,12 @@
 package com.bridgelabz.adressbook.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.bridgelabz.adressbook.entity.AddressBook;
@@ -28,28 +28,36 @@ public class AddressBookServices implements IAddressBookServices {
 		}
 		List<ContactPerson> contacts = adressBook.getContacts();
 
-		System.out.print("ENTER FIRST NAME:");
-		String name = sc.next();
-		// checking for duplicate contact with first name
-		for (ContactPerson contact : contacts) {
-			if (contact.getFirstName().equals(name)) {
-				System.out.println("contact with same name already exists \n");
-				return;
-			}
-		}
+		ContactPerson newContact = new ContactPerson();
 
-		System.out.println("ENTER LAST NAME: ");
-		System.out.println("ENTER ADDRESS: ");
-		System.out.println("ENTER CITY: ");
-		System.out.println("ENTER STATE: ");
-		System.out.println("ENTER EMAIL: ");
-		System.out.println("ENTER ZIP CODE: ");
-		System.out.println("ENTER PHONE NUMBER: ");
-
-		ContactPerson newContact;
 		try {
-			newContact = new ContactPerson(name, sc.next(), sc.next(), sc.next(), sc.next(), sc.next(), sc.nextInt(),
-					sc.nextLong());
+			System.out.print("ENTER FIRST NAME:");
+			String fname = sc.next();
+			newContact.setFirstName(fname);
+
+			// checking for duplicate contact with first name
+			for (ContactPerson contact : contacts) {
+				if (contact.getFirstName().equals(fname)) {
+					System.out.println("contact with same name already exists in this address book \n");
+					return;
+				}
+			}
+
+			System.out.print("ENTER LAST NAME: ");
+			newContact.setLastName(sc.next());
+			System.out.print("ENTER ADDRESS: ");
+			newContact.setAddress(sc.next());
+			System.out.print("ENTER CITY: ");
+			newContact.setCity(sc.next());
+			System.out.print("ENTER STATE: ");
+			newContact.setState(sc.next());
+			System.out.print("ENTER EMAIL: ");
+			newContact.setEmail(sc.next());
+			System.out.print("ENTER ZIP CODE: ");
+			newContact.setZipCode(sc.nextInt());
+			System.out.print("ENTER PHONE NUMBER: ");
+			newContact.setPhoneNumber(sc.nextLong());
+
 			contacts.add(newContact);
 
 			Map<String, List<ContactPerson>> cityDictionary = MultipleAddressBooks.getCityDictionary();
@@ -183,6 +191,15 @@ public class AddressBookServices implements IAddressBookServices {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void sortContacts(Map<String, AddressBook> addressBooks, String adBookName) {
+
+		adressBook = findAddressBook(addressBooks, adBookName);
+		List<ContactPerson> sortedAdressBook = adressBook.getContacts().stream()
+				.sorted((contact1, contact2) -> contact1.getFirstName().compareTo(contact2.getFirstName()))
+				.collect(Collectors.toList());
+		System.out.println(sortedAdressBook);
 	}
 
 	@Override
