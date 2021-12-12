@@ -20,7 +20,8 @@ public class AddressBookApp {
 			Scanner sc = new Scanner(System.in);
 			System.out.println(
 					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n "
-							+ "6.Print contacts\n 7.Search by city/state\n 8.View person by city/state\n 9.Get contacts count using city/state\n 10.Exit");
+							+ "6.Print contacts\n 7.Search by city/state\n 8.View person by city/state\n 9.Get contacts count using city/state\n "
+							+ "10.Sort Contacts in an adrdress book \n 11.Exit");
 			int choice = sc.nextInt();
 
 			switch (choice) {
@@ -30,7 +31,7 @@ public class AddressBookApp {
 				System.out.print(" Enter the name of the address book: ");
 				String adBookName = sc.next();
 				addressBookServices.addContact(addressBooks, adBookName);
-				break;
+				break; 
 
 			case 2:
 				System.out.println("Enter contact detais to edit: ");
@@ -61,7 +62,7 @@ public class AddressBookApp {
 				break;
 
 			case 6:
-				System.out.println("Contact list of address book: ");
+				System.out.println("Contact list of all address books: ");
 				addressBookServices.printContacts(addressBooks);
 				break;
 
@@ -76,8 +77,14 @@ public class AddressBookApp {
 			case 9:
 				multipleAddressBooksServices.getNoOfContacts();
 				break;
-
+				
 			case 10:
+				System.out.print(" Enter the name of the address book: ");
+				adBookName = sc.next();
+				addressBookServices.sortContacts(addressBooks, adBookName);
+				break;	
+
+			case 11:
 				System.out.println("Exiting address book ");
 				sc.close();
 				return;
@@ -85,6 +92,7 @@ public class AddressBookApp {
 			default:
 				System.out.println("Please enter a valid choice ");
 				sc.close();
+				break;
 
 			}
 		}
