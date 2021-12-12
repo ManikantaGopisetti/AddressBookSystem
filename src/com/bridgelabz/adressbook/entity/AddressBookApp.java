@@ -21,79 +21,83 @@ public class AddressBookApp {
 			System.out.println(
 					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n "
 							+ "6.Print contacts\n 7.Search by city/state\n 8.View person by city/state\n 9.Get contacts count using city/state\n "
-							+ "10.Sort Contacts in an adrdress book \n 11.Exit");
+							+ "10.Sort Contacts in an address book \n 11.Exit");
 			int choice = sc.nextInt();
 
-			switch (choice) {
+			try {
+				switch (choice) {
 
-			case 1:
-				System.out.println("Enter contact detais to add: ");
-				System.out.print(" Enter the name of the address book: ");
-				String adBookName = sc.next();
-				addressBookServices.addContact(addressBooks, adBookName);
-				break; 
-
-			case 2:
-				System.out.println("Enter contact detais to edit: ");
-				System.out.print(" Enter the name of the address book: ");
-				adBookName = sc.next();
-				addressBookServices.editContact(addressBooks, adBookName);
-				break;
-
-			case 3:
-				System.out.println("Enter contact detais to delete: ");
-				System.out.print(" Enter the name of the address book: ");
-				adBookName = sc.next();
-				addressBookServices.deleteContact(addressBooks, adBookName);
-				break;
-
-			case 4:
-				System.out.print("Enter the name of the address book: ");
-				adBookName = sc.next();
-				System.out.println("Enter no of contacts to add: ");
-				int n = sc.nextInt();
-				for (int i = 0; i < n; i++) {
+				case 1:
+					System.out.println("Enter contact detais to add: ");
+					System.out.print(" Enter the name of the address book: ");
+					String adBookName = sc.next();
 					addressBookServices.addContact(addressBooks, adBookName);
+					break; 
+
+				case 2:
+					System.out.println("Enter contact detais to edit: ");
+					System.out.print(" Enter the name of the address book: ");
+					adBookName = sc.next();
+					addressBookServices.editContact(addressBooks, adBookName);
+					break;
+
+				case 3:
+					System.out.println("Enter contact detais to delete: ");
+					System.out.print(" Enter the name of the address book: ");
+					adBookName = sc.next();
+					addressBookServices.deleteContact(addressBooks, adBookName);
+					break;
+
+				case 4:
+					System.out.print("Enter the name of the address book: ");
+					adBookName = sc.next();
+					System.out.println("Enter no of contacts to add: ");
+					int n = sc.nextInt();
+					for (int i = 0; i < n; i++) {
+						addressBookServices.addContact(addressBooks, adBookName);
+					}
+					break;
+
+				case 5:
+					multipleAddressBooksServices.addAddressBook(addressBooks);
+					break;
+
+				case 6:
+					System.out.println("Contact list of all address books: ");
+					addressBookServices.printContacts(addressBooks);
+					break;
+
+				case 7:
+					multipleAddressBooksServices.searchPersonByCityState(addressBooks);
+					break;
+
+				case 8:
+					multipleAddressBooksServices.viewPersonByCityState();
+					break;
+
+				case 9:
+					multipleAddressBooksServices.getNoOfContacts();
+					break;
+					
+				case 10:
+					System.out.print(" Enter the name of the address book: ");
+					adBookName = sc.next();
+					addressBookServices.sortContacts(addressBooks, adBookName);
+					break;	
+
+				case 11:
+					System.out.println("Exiting address book ");
+					sc.close();
+					return;
+
+				default:
+					System.out.println("Please enter a valid choice ");
+					sc.close();
+					break;
+
 				}
-				break;
-
-			case 5:
-				multipleAddressBooksServices.addAddressBook(addressBooks);
-				break;
-
-			case 6:
-				System.out.println("Contact list of all address books: ");
-				addressBookServices.printContacts(addressBooks);
-				break;
-
-			case 7:
-				multipleAddressBooksServices.searchPersonByCityState(addressBooks);
-				break;
-
-			case 8:
-				multipleAddressBooksServices.viewPersonByCityState();
-				break;
-
-			case 9:
-				multipleAddressBooksServices.getNoOfContacts();
-				break;
-				
-			case 10:
-				System.out.print(" Enter the name of the address book: ");
-				adBookName = sc.next();
-				addressBookServices.sortContacts(addressBooks, adBookName);
-				break;	
-
-			case 11:
-				System.out.println("Exiting address book ");
-				sc.close();
-				return;
-
-			default:
-				System.out.println("Please enter a valid choice ");
-				sc.close();
-				break;
-
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 	}

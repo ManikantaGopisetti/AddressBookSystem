@@ -196,10 +196,50 @@ public class AddressBookServices implements IAddressBookServices {
 	public void sortContacts(Map<String, AddressBook> addressBooks, String adBookName) {
 
 		adressBook = findAddressBook(addressBooks, adBookName);
-		List<ContactPerson> sortedAdressBook = adressBook.getContacts().stream()
-				.sorted((contact1, contact2) -> contact1.getFirstName().compareTo(contact2.getFirstName()))
-				.collect(Collectors.toList());
-		System.out.println(sortedAdressBook);
+
+		System.out.println(
+				"Enter your choice:\n 1. Sort contacts by First name\n 2.Sort contacts by City name\n 3.Sort contacts by State name\n 4.Sort contacts by Zip code");
+		int choice = sc.nextInt();
+
+		switch (choice) {
+		case 1:
+			List<ContactPerson> sortedAddressBookFname = adressBook.getContacts().stream()
+					.sorted((contact1, contact2) -> contact1.getFirstName().compareTo(contact2.getFirstName()))
+					.collect(Collectors.toList());
+			System.out.println("Sorted contacts : \n"+sortedAddressBookFname);
+
+			break;
+
+		case 2:
+			List<ContactPerson> sortedAddressBookCity = adressBook.getContacts().stream()
+					.sorted((contact1, contact2) -> contact1.getCity().compareTo(contact2.getCity()))
+					.collect(Collectors.toList());
+			System.out.println("Sorted contacts : \n"+sortedAddressBookCity);
+
+			break;
+
+		case 3:
+			List<ContactPerson> sortedAddressBookState = adressBook.getContacts().stream()
+					.sorted((contact1, contact2) -> contact1.getState().compareTo(contact2.getState()))
+					.collect(Collectors.toList());
+			System.out.println("Sorted contacts : \n"+sortedAddressBookState);
+
+			break;
+
+		case 4:
+			List<ContactPerson> sortedAddressBookZip = adressBook.getContacts().stream().sorted((contact1,contact2) -> 
+					(String.valueOf(contact1.getZipCode()).compareTo(String.valueOf(contact2.getZipCode()))))
+					.collect(Collectors.toList());
+			System.out.println("Sorted contacts : \n"+sortedAddressBookZip);
+
+			break;
+
+		default:
+			System.out.println("Please enter a valid choice ");
+			break;
+
+		}
+
 	}
 
 	@Override
