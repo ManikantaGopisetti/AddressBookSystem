@@ -1,0 +1,4 @@
+ [firstName=sai, lastName=sda, address=ssaf, city=sfsf, state=ffasf, email=tesg, zipCode=45345, phoneNumber=453454235]
+
+ [firstName=Mani, lastName=gopisetti, address=hyderabad, city=nijampet, state=telangana, email=mani@gmail.com, zipCode=533236, phoneNumber=9779798798]
+

@@ -1,5 +1,6 @@
 package com.bridgelabz.adressbook.service;
 
+import java.io.IOException;
 import java.util.Map;
 import com.bridgelabz.adressbook.entity.AddressBook;
 import com.bridgelabz.adressbook.entity.ContactPerson;
@@ -17,5 +18,9 @@ public interface IAddressBookServices {
 	public ContactPerson findContact(AddressBook adBook);
 
 	void printContacts(Map<String, AddressBook> addressBooks);
+	
+	public void readcontactsFromFile() throws IOException;
+	
+	public void writeContactsIntoFile() throws IOException;
 
 }
