@@ -1,12 +1,17 @@
 package com.bridgelabz.adressbook.service;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.bridgelabz.adressbook.entity.AddressBook;
@@ -16,6 +21,8 @@ import com.bridgelabz.adressbook.entity.MultipleAddressBooks;
 public class AddressBookServices implements IAddressBookServices {
 
 	public static AddressBook adressBook;
+	
+	private static final String Home="resources/Input.txt";
 
 	Scanner sc = new Scanner(System.in);
 
@@ -294,5 +301,43 @@ public class AddressBookServices implements IAddressBookServices {
 	@Override
 	public void printContacts(Map<String, AddressBook> addressBooks) {
 		System.out.println(addressBooks);
+	}
+	
+	public void readcontactsFromFile() throws IOException {
+		Path path=Paths.get(Home);
+		if(!Files.exists(path)) {
+			System.out.println("File is not there. Create a new file....");
+		}
+		FileReader fileReader=new FileReader(Home);
+		int ch;
+		while((ch=fileReader.read())!=-1) {
+			System.out.print((char)ch);
+		}
+		
+	}
+
+	public void writeContactsIntoFile() throws IOException {
+		
+		Path path = Paths.get("Home");
+		if(!Files.exists(path)) {
+			System.out.println("File is not there. Creating a new file....");
+			Files.createFile(path);
+		}
+		StringBuffer stringBuffer = new StringBuffer();
+
+		List<String> list = MultipleAddressBooks.getAddressBooks().entrySet().stream().map(Map.Entry::getKey)
+				.collect(Collectors.toList());
+		for (String string : list) {
+			MultipleAddressBooks.getAddressBooks().entrySet().stream().filter(map -> map.getKey().contains(string))
+					.map(value -> value.getValue()).forEach(list1 -> {
+						list1.getContacts().stream().forEach(contact->{
+							String str = contact.toString().concat("\n");
+							stringBuffer.append(str);
+						});
+					});
+		}
+		FileWriter fileWriter= new FileWriter(Home);
+		fileWriter.write(stringBuffer.toString());
+		fileWriter.close();
 	}
 }

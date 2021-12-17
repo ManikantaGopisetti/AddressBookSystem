@@ -21,7 +21,7 @@ public class AddressBookApp {
 			System.out.println(
 					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n "
 							+ "6.Print contacts\n 7.Search by city/state\n 8.View person by city/state\n 9.Get contacts count using city/state\n "
-							+ "10.Sort Contacts in an address book \n 11.Exit");
+							+ "10.Sort Contacts in an address book \n 11.Read contacts from file\n 12.Write contacts into file\n 13Exit");
 			int choice = sc.nextInt();
 
 			try {
@@ -83,9 +83,17 @@ public class AddressBookApp {
 					System.out.print(" Enter the name of the address book: ");
 					adBookName = sc.next();
 					addressBookServices.sortContacts(addressBooks, adBookName);
-					break;	
-
+					break;
+					
 				case 11:
+					addressBookServices.readcontactsFromFile();
+					break;
+					
+				case 12:
+					addressBookServices.writeContactsIntoFile();
+					break;
+
+				case 13:
 					System.out.println("Exiting address book ");
 					sc.close();
 					return;
