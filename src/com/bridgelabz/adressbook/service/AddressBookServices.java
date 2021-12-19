@@ -19,6 +19,8 @@ import java.util.stream.Collectors;
 import com.bridgelabz.adressbook.entity.AddressBook;
 import com.bridgelabz.adressbook.entity.ContactPerson;
 import com.bridgelabz.adressbook.entity.MultipleAddressBooks;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.opencsv.CSVWriter;
 
 public class AddressBookServices implements IAddressBookServices {
@@ -28,6 +30,8 @@ public class AddressBookServices implements IAddressBookServices {
 	private static final String Home = "resources/Input.txt";
 
 	private static final String HOME_CSV = "resources/addresses.csv";
+
+	private static final String HOME_JSON = "resources/addresses.json";
 
 	Scanner sc = new Scanner(System.in);
 
@@ -378,4 +382,29 @@ public class AddressBookServices implements IAddressBookServices {
 					+ ", phoneNumber=" + contact[6] + "]");
 		}
 	}
+
+	public void writeIntoJSON_File() throws IOException {
+
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String output = gson.toJson(MultipleAddressBooks.getAddressBooks());
+		FileWriter fileWriter = new FileWriter(HOME_JSON);
+		fileWriter.write(output);
+		fileWriter.close();
+
+		System.out.println("....successfully added contacts into JSON file....");
+	}
+
+	public void readFromJSON_File() throws IOException {
+
+		Gson gson = new Gson();
+		Path path = Paths.get(HOME_JSON);
+		if (!Files.exists(path)) {
+			System.out.println("JSON File is not there. Create a new file....");
+		}
+		FileReader fileReader = new FileReader(HOME_JSON);
+		Object temp = gson.fromJson(fileReader, Object.class);
+		System.out.println(temp);
+
+	}
+
 }
