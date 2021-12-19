@@ -1,8 +1,10 @@
 package com.bridgelabz.adressbook.service;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,12 +19,15 @@ import java.util.stream.Collectors;
 import com.bridgelabz.adressbook.entity.AddressBook;
 import com.bridgelabz.adressbook.entity.ContactPerson;
 import com.bridgelabz.adressbook.entity.MultipleAddressBooks;
+import com.opencsv.CSVWriter;
 
 public class AddressBookServices implements IAddressBookServices {
 
 	public static AddressBook adressBook;
-	
-	private static final String Home="resources/Input.txt";
+
+	private static final String Home = "resources/Input.txt";
+
+	private static final String HOME_CSV = "resources/addresses.csv";
 
 	Scanner sc = new Scanner(System.in);
 
@@ -213,7 +218,7 @@ public class AddressBookServices implements IAddressBookServices {
 			List<ContactPerson> sortedAddressBookFname = adressBook.getContacts().stream()
 					.sorted((contact1, contact2) -> contact1.getFirstName().compareTo(contact2.getFirstName()))
 					.collect(Collectors.toList());
-			System.out.println("Sorted contacts : \n"+sortedAddressBookFname);
+			System.out.println("Sorted contacts : \n" + sortedAddressBookFname);
 
 			break;
 
@@ -221,7 +226,7 @@ public class AddressBookServices implements IAddressBookServices {
 			List<ContactPerson> sortedAddressBookCity = adressBook.getContacts().stream()
 					.sorted((contact1, contact2) -> contact1.getCity().compareTo(contact2.getCity()))
 					.collect(Collectors.toList());
-			System.out.println("Sorted contacts : \n"+sortedAddressBookCity);
+			System.out.println("Sorted contacts : \n" + sortedAddressBookCity);
 
 			break;
 
@@ -229,15 +234,18 @@ public class AddressBookServices implements IAddressBookServices {
 			List<ContactPerson> sortedAddressBookState = adressBook.getContacts().stream()
 					.sorted((contact1, contact2) -> contact1.getState().compareTo(contact2.getState()))
 					.collect(Collectors.toList());
-			System.out.println("Sorted contacts : \n"+sortedAddressBookState);
+			System.out.println("Sorted contacts : \n" + sortedAddressBookState);
 
 			break;
 
 		case 4:
-			List<ContactPerson> sortedAddressBookZip = adressBook.getContacts().stream().sorted((contact1,contact2) -> 
-					(String.valueOf(contact1.getZipCode()).compareTo(String.valueOf(contact2.getZipCode()))))
+			List<ContactPerson> sortedAddressBookZip = adressBook
+					.getContacts().stream().sorted(
+							(contact1,
+									contact2) -> (String.valueOf(contact1.getZipCode())
+											.compareTo(String.valueOf(contact2.getZipCode()))))
 					.collect(Collectors.toList());
-			System.out.println("Sorted contacts : \n"+sortedAddressBookZip);
+			System.out.println("Sorted contacts : \n" + sortedAddressBookZip);
 
 			break;
 
@@ -302,24 +310,24 @@ public class AddressBookServices implements IAddressBookServices {
 	public void printContacts(Map<String, AddressBook> addressBooks) {
 		System.out.println(addressBooks);
 	}
-	
+
 	public void readcontactsFromFile() throws IOException {
-		Path path=Paths.get(Home);
-		if(!Files.exists(path)) {
+		Path path = Paths.get(Home);
+		if (!Files.exists(path)) {
 			System.out.println("File is not there. Create a new file....");
 		}
-		FileReader fileReader=new FileReader(Home);
+		FileReader fileReader = new FileReader(Home);
 		int ch;
-		while((ch=fileReader.read())!=-1) {
-			System.out.print((char)ch);
+		while ((ch = fileReader.read()) != -1) {
+			System.out.print((char) ch);
 		}
-		
+
 	}
 
 	public void writeContactsIntoFile() throws IOException {
-		
+
 		Path path = Paths.get("Home");
-		if(!Files.exists(path)) {
+		if (!Files.exists(path)) {
 			System.out.println("File is not there. Creating a new file....");
 			Files.createFile(path);
 		}
@@ -330,14 +338,44 @@ public class AddressBookServices implements IAddressBookServices {
 		for (String string : list) {
 			MultipleAddressBooks.getAddressBooks().entrySet().stream().filter(map -> map.getKey().contains(string))
 					.map(value -> value.getValue()).forEach(list1 -> {
-						list1.getContacts().stream().forEach(contact->{
+						list1.getContacts().stream().forEach(contact -> {
 							String str = contact.toString().concat("\n");
 							stringBuffer.append(str);
 						});
 					});
 		}
-		FileWriter fileWriter= new FileWriter(Home);
+		FileWriter fileWriter = new FileWriter(Home);
 		fileWriter.write(stringBuffer.toString());
 		fileWriter.close();
+	}
+
+	public void writeIntoCSVFile() throws IOException {
+
+		List<String[]> stringslist = new ArrayList<>();
+		PrintWriter printWriter = new PrintWriter(HOME_CSV);
+		CSVWriter csvWriter = new CSVWriter(printWriter);
+
+		MultipleAddressBooks.getAddressBooks().entrySet().stream().map(Map.Entry::getValue)
+				.forEach(addressBook -> addressBook.getContacts().stream().forEach(contact -> {
+					stringslist.add(new String[] { contact.getFirstName(), contact.getLastName(), contact.getAddress(),
+							contact.getCity(), contact.getState(), Integer.toString(contact.getZipCode()),
+							Long.toString(contact.getPhoneNumber()) });
+				}));
+		csvWriter.writeAll(stringslist);
+		csvWriter.close();
+		System.out.println("....successfully added contacts into csv file....");
+
+	}
+
+	public void readFromCSVFile() throws IOException {
+
+		BufferedReader br = new BufferedReader(new FileReader(HOME_CSV));
+		String line = "";
+		while ((line = br.readLine()) != null) {
+			String[] contact = line.split(",");
+			System.out.println("Contact [firstName=" + contact[0] + ", lastName=" + contact[1] + ", address="
+					+ contact[2] + ", cityName=" + contact[3] + ", stateName=" + contact[4] + ", zip=" + contact[5]
+					+ ", phoneNumber=" + contact[6] + "]");
+		}
 	}
 }
