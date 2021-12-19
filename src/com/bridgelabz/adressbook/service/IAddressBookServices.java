@@ -22,5 +22,9 @@ public interface IAddressBookServices {
 	public void readcontactsFromFile() throws IOException;
 	
 	public void writeContactsIntoFile() throws IOException;
+	
+	public void writeIntoCSVFile() throws IOException;
+	
+	public void readFromCSVFile() throws IOException;
 
 }

@@ -10,18 +10,18 @@ public class ContactPerson {
 		
 	}
 
-//	public ContactPerson(String firstName, String lastName, String address, String city, String state, String email,
-//			int zipCode, Long phoneNumber) {
-//		super();
-//		this.firstName = firstName;
-//		this.lastName = lastName;
-//		this.address = address;
-//		this.city = city;
-//		this.state = state;
-//		this.email = email;
-//		this.zipCode = zipCode;
-//		this.phoneNumber = phoneNumber;
-//	}
+	public ContactPerson(String firstName, String lastName, String address, String city, String state, String email,
+			int zipCode, Long phoneNumber) {
+		super();
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.email = email;
+		this.zipCode = zipCode;
+		this.phoneNumber = phoneNumber;
+	}
 
 	public String getFirstName() {
 		return firstName;
