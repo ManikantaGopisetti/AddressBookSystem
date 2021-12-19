@@ -1,0 +1,26 @@
+{
+  "Mani": {
+    "contacts": [
+      {
+        "firstName": "Gana",
+        "lastName": "Kandula",
+        "address": "ddl",
+        "city": "goa",
+        "state": "goa",
+        "email": "jggg@gmail.com",
+        "zipCode": 575865,
+        "phoneNumber": 575676658
+      },
+      {
+        "firstName": "Dhana",
+        "lastName": "fcgfh",
+        "address": "fhgfh",
+        "city": "dchfh",
+        "state": "ccbb",
+        "email": "ggj@gmail.com",
+        "zipCode": 57757,
+        "phoneNumber": 66888867
+      }
+    ]
+  }
+}

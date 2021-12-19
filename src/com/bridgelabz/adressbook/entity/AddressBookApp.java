@@ -22,7 +22,8 @@ public class AddressBookApp {
 					"Enter your choice:\n 1. Add contact\n 2.Edit Contact\n 3.Delete contact\n 4.Add multiple contacts\n 5.Add address book\n "
 							+ "6.Print contacts\n 7.Search by city/state\n 8.View person by city/state\n 9.Get contacts count using city/state\n "
 							+ "10.Sort Contacts in an address book \n 11.Read contacts from file\n 12.Write contacts into file\n "
-							+ "13.Read contacts from CSV file\n 14.Write contacts into CSV file\n 15.Exit");
+							+ "13.Read contacts from CSV file\n 14.Write contacts into CSV file\n 15.Read contacts from JSON file\n "
+							+ "16.Write contacts into JSON file\n 17.Exit");
 			int choice = sc.nextInt();
 
 			try {
@@ -103,6 +104,14 @@ public class AddressBookApp {
 					break;
 
 				case 15:
+					addressBookServices.readFromJSON_File();
+					break;
+
+				case 16:
+					addressBookServices.writeIntoJSON_File();
+					break;
+
+				case 17:
 					System.out.println("Exiting address book ");
 					sc.close();
 					return;
